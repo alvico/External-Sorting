@@ -6,7 +6,6 @@ import java.io.{FileNotFoundException, IOException}
 
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
-import scala.util.control.Breaks
 
 /**
  * Class that handles the file partition
@@ -23,7 +22,7 @@ class FileSplitter(file:String) {
     easiness, real scenario would require a more
     thoughtful calculation based on available memory
    */
-  private val maxRowsToSort: Int = 200000
+  private[FileHelpers] var maxRowsToSort: Int = 200000
 
   /**
    * List for storing the filenames of
@@ -52,14 +51,13 @@ class FileSplitter(file:String) {
   def process(): Unit = {
     open()
     if(Option(fileIterator).isDefined) {
-      var rows: Array[String] = null
+      val rows: ArrayBuffer[String] = new ArrayBuffer[String]()
       while (fileIterator.hasNext) {
-        for (a <-  0 to maxRowsToSort-1) {
-          rows = new Array[String](maxRowsToSort)
-          rows.update(a, fileIterator.next())
-          if (fileIterator.isEmpty) { Breaks.break() }
+        for (a <-  0 to maxRowsToSort-1 if fileIterator.nonEmpty) {
+          rows.append(fileIterator.next())
         }
-        val arrayHandler = new ArrayHandler(rows)
+        val arrayHandler = new ArrayHandler(rows.toArray)
+        rows.clear()
         listOfFiles.append(arrayHandler.quickSort())
       }
     } else {
