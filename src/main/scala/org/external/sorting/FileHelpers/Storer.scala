@@ -13,7 +13,7 @@ trait Storer {
   protected def saveToFile(itr:Array[_]):String = {
     try {
       val p: PrintWriter = new PrintWriter(new File(fileName))
-      itr.foreach(e => p.write(e.toString))
+      itr.foreach(e => p.println(e.toString))
       p.close()
     } catch {
       case e: IOException => println(s"File $fileName caused an IOException")

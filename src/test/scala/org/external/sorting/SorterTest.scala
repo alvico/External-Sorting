@@ -1,6 +1,5 @@
 package org.external.sorting
 
 
-class WorkerTest {
-
+class SorterTest {
 }

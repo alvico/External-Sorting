@@ -1,6 +1,6 @@
 package org.external.sorting.FileHelpers
 
-import main.SortHelpers.ArrayHandler
+import org.external.sorting.SortHelpers.ArrayHandler
 
 import java.io.{FileNotFoundException, IOException}
 
@@ -52,7 +52,7 @@ class FileSplitter(file:String) {
   def process(): Unit = {
     open()
     if(Option(fileIterator).isDefined) {
-      var rows: Array[String] = _
+      var rows: Array[String] = null
       while (fileIterator.hasNext) {
         for (a <-  0 to maxRowsToSort-1) {
           rows = new Array[String](maxRowsToSort)

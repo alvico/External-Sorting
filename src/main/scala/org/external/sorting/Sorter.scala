@@ -2,7 +2,7 @@ package org.external.sorting
 
 import org.external.sorting.FileHelpers.{FileMerger, FileSplitter}
 
-object Worker extends App {
+object Sorter extends App {
 
   override def main(args: Array[String]) {
     if(args.length!=1) { throw new Exception("no file name  provided")}

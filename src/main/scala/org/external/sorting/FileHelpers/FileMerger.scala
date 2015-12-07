@@ -1,6 +1,6 @@
 package org.external.sorting.FileHelpers
 
-import main.SortHelpers.ArrayHandler
+import org.external.sorting.SortHelpers.ArrayHandler
 
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
