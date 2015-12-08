@@ -27,9 +27,7 @@ class FileMerger(val listToMerge:ArrayBuffer[String], val out:String) {
   /**
    * Size of the outputbuffer
    */
-   var outputBuffer:Int = 3
-
-   var internalBuffer:Int = 4
+   var outputBuffer:Int = 4
 
   /**
    * Loads all the iterators into an array of iterators
@@ -65,8 +63,7 @@ class FileMerger(val listToMerge:ArrayBuffer[String], val out:String) {
     val ah: ArrayHandler = new ArrayHandler(aux.toArray)
     ah.append = true
     ah.fileName = out
-
     ah.quickSort()
-
+    aux.clear()
   }
 }

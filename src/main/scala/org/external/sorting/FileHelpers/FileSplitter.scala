@@ -22,7 +22,7 @@ class FileSplitter(file:String) {
     easiness, real scenario would require a more
     thoughtful calculation based on available memory
    */
-  private[FileHelpers] var maxRowsToSort: Int = 200000
+  private[FileHelpers] var maxRowsToSort: Int = 4
 
   /**
    * List for storing the filenames of
