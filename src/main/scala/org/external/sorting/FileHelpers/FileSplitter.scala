@@ -25,10 +25,15 @@ class FileSplitter(file:String) {
   private[FileHelpers] var maxRowsToSort: Int = 4
 
   /**
+   * Number of file buffers
+   */
+  val buffers: Int = 4
+
+  /**
    * List for storing the filenames of
    * smaller files that created by the algorithm
    */
-  val listOfFiles: ArrayBuffer[String] = new ArrayBuffer[String]()
+  val listOfFiles: Array[String] = new Array[String](buffers)
 
   /**
    * Function that initalizes the iterator
@@ -42,23 +47,31 @@ class FileSplitter(file:String) {
     }
   }
 
+  private def fillListOfFiles():Unit = {
+    for (a <- 0 to buffers-1) {
+      val fileName: String = "tmp-file-buff-" + util.Random.nextInt
+      listOfFiles.update(a, fileName)
+    }
+  }
+
   /**
    * Processes the large file with the
    * algorithm, splitting the file into smaller files
    * that will contain a subset of the contents of the larger
-   * file, ordering them in memory and then merge them back together
+   * file, ordering them in memory
    */
   def process(): Unit = {
     open()
+    fillListOfFiles()
     if(Option(fileIterator).isDefined) {
       val rows: ArrayBuffer[String] = new ArrayBuffer[String]()
       while (fileIterator.hasNext) {
         for (a <-  0 to maxRowsToSort-1 if fileIterator.nonEmpty) {
           rows.append(fileIterator.next())
         }
-        val arrayHandler = new ArrayHandler(rows.toArray)
+        val arrayHandler = new ArrayHandler(rows.toArray, listOfFiles)
         rows.clear()
-        listOfFiles.append(arrayHandler.quickSort())
+        arrayHandler.quickSort()
       }
     } else {
       throw new Exception(s"Content from $file not loaded")

@@ -2,12 +2,10 @@ package org.external.sorting.FileHelpers
 
 import java.io.File
 
-import scala.collection.mutable.ArrayBuffer
-
 object FileSplitterTest extends FileLoader {
 
 
-  def teardown(ls:ArrayBuffer[String]): Unit = {
+  def teardown(ls:Array[String]): Unit = {
     ls.foreach(file => new File(file).delete())
   }
 
@@ -25,14 +23,14 @@ object FileSplitterTest extends FileLoader {
   private def processTestSmoke(fs: FileSplitter): Boolean = {
     fs.process()
     var resp_val = false
-    if (fs.listOfFiles.length == 3) { resp_val = true }
+    if (fs.listOfFiles.length == 4) { resp_val = true }
     else { throw new Exception("It should have generated 3 subfiles but") }
     resp_val
   }
 
   // method for testing that each of the content in the files
   // is Sorted properly
-  private def processTestSortedFiles(ls:ArrayBuffer[String]): Boolean = {
+  private def processTestSortedFiles(ls:Array[String]): Boolean = {
     var resp_val = false
     for(file <-  ls) {
       val itr:Iterator[String] = loadFile(file)

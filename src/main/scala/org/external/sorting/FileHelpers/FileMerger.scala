@@ -14,7 +14,7 @@ import scala.io.Source
  * @param listToMerge list of filenames where the content is splitted
  * @param out name of the outpuf file
  */
-class FileMerger(val listToMerge:ArrayBuffer[String], val out:String) {
+class FileMerger(val listToMerge:Array[String], val out:String) {
 
   /**
    * Helper function that creates and iterator that reads from a file
@@ -59,10 +59,12 @@ class FileMerger(val listToMerge:ArrayBuffer[String], val out:String) {
     }
   }
 
+  /**
+   * Helper function that saves and sorts and array
+   * @param aux array to sort and save
+   */
   private def saveAuxArray(aux:ArrayBuffer[String]): Unit = {
-    val ah: ArrayHandler = new ArrayHandler(aux.toArray)
-    ah.append = true
-    ah.fileName = out
+    val ah: ArrayHandler = new ArrayHandler(aux.toArray, Array(out))
     ah.quickSort()
     aux.clear()
   }

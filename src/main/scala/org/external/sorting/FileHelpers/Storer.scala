@@ -14,29 +14,40 @@ trait Storer {
   private val newline = System.getProperty("line.separator")
 
   protected def saveToFile(itr:Array[_]):String = {
-    try {
-      val p: PrintWriter = new PrintWriter(new File(fileName))
-      itr.foreach(e => p.println(e.toString))
-      p.close()
-    } catch {
-      case e: IOException => println(s"File $fileName caused an IOException")
-    }
+    itr.foreach(e =>saveLine(fileName, e.toString))
     fileName
   }
 
   protected def appendToFile(itr:Array[_]):String = {
+    if(Files.notExists(Paths.get(fileName))) { saveToFile(itr) }
+    else { itr.foreach(e => appendLine(fileName, e.toString)) }
+    fileName
+  }
+
+  /*
+  protected def saveAppendLine(file:String, line:String): Unit = {
     try {
-      if(Files.notExists(Paths.get(fileName))) {
-        saveToFile(itr)
-      }
-      else {
-        val fw: FileWriter = new FileWriter(fileName, true)
-        itr.foreach(e => fw.write(e.toString + newline))
-        fw.close()
-      }
+      if(Files.notExists(Paths.get(fileName))) { appendLine(file, line) }
+      else { appendLine(file, line) }
     } catch {
       case e: IOException => println(s"File $fileName caused an IOException")
     }
-    fileName
   }
+*/
+  private def saveLine(file:String, line:String) : Unit = {
+      val p: PrintWriter = new PrintWriter(new File(file))
+      p.write(line)
+      p.close()
+  }
+
+  protected def appendLine(file:String, line:String) : Unit = {
+    try{
+      val fw: FileWriter = new FileWriter(file, true)
+      fw.write(line + newline)
+      fw.close()
+    } catch {
+      case e: IOException => println(s"File $fileName caused an IOException")
+    }
+  }
+
 }
