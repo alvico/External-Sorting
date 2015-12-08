@@ -13,6 +13,11 @@ import  scala.util.Sorting
 class ArrayHandler(val itr: Array[String]) extends Storer {
 
   /**
+   * Mode: true to append to the file
+   */
+  var append:Boolean = false
+
+  /**
    * Method that quicksorts the given array and saves it into a file
    *
    * @return file name where the info is stored
@@ -23,7 +28,7 @@ class ArrayHandler(val itr: Array[String]) extends Storer {
     // from utils.Sorting.quicksort but according to some
     // documentation there is no major difference in performance
     Sorting.quickSort(itr)
-    saveToFile(itr)
+    if(append) {appendToFile(itr)} else {saveToFile(itr)}
   }
 
   /**
@@ -34,6 +39,6 @@ class ArrayHandler(val itr: Array[String]) extends Storer {
   def sort(): String = {
     // Scala provides us with a nice sorted function
     itr.sorted
-    saveToFile(itr)
+    if(append) {appendToFile(itr)} else {saveToFile(itr)}
   }
 }

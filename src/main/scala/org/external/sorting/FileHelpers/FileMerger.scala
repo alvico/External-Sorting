@@ -23,6 +23,14 @@ class FileMerger(val listToMerge:ArrayBuffer[String], val out:String) {
    */
   private def loadFile(file:String): Iterator[String] = Source.fromFile(file).getLines()
 
+
+  /**
+   * Size of the outputbuffer
+   */
+   var outputBuffer:Int = 3
+
+   var internalBuffer:Int = 4
+
   /**
    * Loads all the iterators into an array of iterators
    * generates aux arrays that contains the different lines to sort from the iteratos
@@ -36,14 +44,29 @@ class FileMerger(val listToMerge:ArrayBuffer[String], val out:String) {
       index+=1
     }
 
-    while (itrList.forall(a=>a.nonEmpty)) {
-      val aux: ArrayBuffer[String] = new ArrayBuffer[String]()
-      for( a <- itrList) {
-        if(a.nonEmpty) { aux.append(a.next()) }
+    val aux: ArrayBuffer[String] = new ArrayBuffer[String]()
+
+    while (itrList.exists(a=>a.nonEmpty)) {
+      for( a <- itrList ) {
+        if(a.nonEmpty) {
+          aux.append(a.next())
+          if ( aux.length == outputBuffer) {
+            saveAuxArray(aux)
+          }
+        }
       }
-      val ah: ArrayHandler = new ArrayHandler(aux.toArray)
-      ah.fileName = out
-      ah.quickSort()
     }
+    if (aux.nonEmpty) {
+      saveAuxArray(aux)
+    }
+  }
+
+  private def saveAuxArray(aux:ArrayBuffer[String]): Unit = {
+    val ah: ArrayHandler = new ArrayHandler(aux.toArray)
+    ah.append = true
+    ah.fileName = out
+
+    ah.quickSort()
+
   }
 }

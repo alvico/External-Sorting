@@ -3,14 +3,11 @@ package org.external.sorting.FileHelpers
 import java.io.File
 
 import scala.collection.mutable.ArrayBuffer
-import scala.io.Source
+
+object FileSplitterTest extends FileLoader {
 
 
-object FileSplitterTest {
-
-  private def loadFile(file:String): Iterator[String] = Source.fromFile(file).getLines()
-
-  def teardowntest(ls:ArrayBuffer[String]): Unit = {
+  def teardown(ls:ArrayBuffer[String]): Unit = {
     ls.foreach(file => new File(file).delete())
   }
 
@@ -22,7 +19,7 @@ object FileSplitterTest {
     assert (processTestSmoke(fs))
     assert (processTestSortedFiles(fs.listOfFiles))
 
-    teardowntest(fs.listOfFiles)
+    teardown(fs.listOfFiles)
   }
 
   private def processTestSmoke(fs: FileSplitter): Boolean = {
