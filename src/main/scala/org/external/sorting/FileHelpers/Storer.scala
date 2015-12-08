@@ -23,17 +23,7 @@ trait Storer {
     else { itr.foreach(e => appendLine(fileName, e.toString)) }
     fileName
   }
-
-  /*
-  protected def saveAppendLine(file:String, line:String): Unit = {
-    try {
-      if(Files.notExists(Paths.get(fileName))) { appendLine(file, line) }
-      else { appendLine(file, line) }
-    } catch {
-      case e: IOException => println(s"File $fileName caused an IOException")
-    }
-  }
-*/
+  
   private def saveLine(file:String, line:String) : Unit = {
       val p: PrintWriter = new PrintWriter(new File(file))
       p.write(line)

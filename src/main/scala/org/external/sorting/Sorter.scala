@@ -4,6 +4,11 @@ import java.io.File
 
 import org.external.sorting.FileHelpers.{FileMerger, FileSplitter}
 
+/**
+ * Main class that triggers the whole
+ * process recieves the path and the of the filename
+ * to sort
+ */
 object Sorter {
 
   def teardown(ls:Array[String]): Unit = {
